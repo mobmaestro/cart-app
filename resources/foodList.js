@@ -6,6 +6,7 @@ export const foodList = [
 		price: 600,
 		type: "Non-Veg",
 		dishType: "Pizza",
+		count: 0,
 	},
 	{
 		key: "1",
@@ -14,6 +15,7 @@ export const foodList = [
 		price: 200,
 		type: "Non-Veg",
 		dishType: "Chicken",
+		count: 0,
 	},
 	{
 		key: "2",
@@ -22,6 +24,7 @@ export const foodList = [
 		price: 250,
 		type: "Veg",
 		dishType: "Momos",
+		count: 0,
 	},
 	{
 		key: "3",
@@ -30,6 +33,7 @@ export const foodList = [
 		price: 300,
 		type: "Non-Veg",
 		dishType: "Momos",
+		count: 0,
 	},
 	{
 		key: "4",
@@ -38,6 +42,7 @@ export const foodList = [
 		price: 150,
 		type: "Veg",
 		dishType: "Beverage",
+		count: 0,
 	},
 	{
 		key: "5",
@@ -46,6 +51,7 @@ export const foodList = [
 		price: 750,
 		type: "Non-Veg",
 		dishType: "Indian",
+		count: 0,
 	},
 	{
 		key: "6",
@@ -54,6 +60,7 @@ export const foodList = [
 		price: 300,
 		type: "Non-Veg",
 		dishType: "Dessert",
+		count: 0,
 	},
 	{
 		key: "7",
@@ -62,6 +69,7 @@ export const foodList = [
 		price: 700,
 		type: "Non-Veg",
 		dishType: "Biryani",
+		count: 0,
 	},
 	{
 		key: "8",
@@ -70,6 +78,7 @@ export const foodList = [
 		price: 420,
 		type: "Veg",
 		dishType: "Biryani",
+		count: 0,
 	},
 	{
 		key: "9",
@@ -78,6 +87,7 @@ export const foodList = [
 		price: 350,
 		type: "Non-Veg",
 		dishType: "Bengali",
+		count: 0,
 	},
 	{
 		key: "10",
@@ -86,5 +96,6 @@ export const foodList = [
 		price: 400,
 		type: "Non-Veg",
 		dishType: "Chinese",
+		count: 0,
 	},
 ];

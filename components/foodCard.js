@@ -1,7 +1,13 @@
 import React from "react";
-import { Image, StyleSheet, View } from "react-native";
 import {
+	Image,
+	StyleSheet,
+	View,
+	Text,
 	Button,
+	TouchableHighlight,
+} from "react-native";
+import {
 	Caption,
 	Divider,
 	IconButton,
@@ -38,19 +44,67 @@ export default function FoodCard(props) {
 						style={styles.foodImage}
 						source={require("../assets/food.jpg")}
 					/>
-					<Button
-						style={{
-							width: "60%",
-							marginVertical: 10,
-							borderColor: "#e60544",
-						}}
-						labelStyle={{ fontSize: 12 }}
-						icon="plus"
-						mode="outlined"
-						color="#e60544"
-					>
-						Add
-					</Button>
+					{props.count === 0 ? (
+						<View style={{ marginVertical: 10 }}>
+							<TouchableHighlight
+								style={{
+									borderColor: "#e60544",
+									borderWidth: 1,
+									paddingHorizontal: 15,
+									paddingVertical: 8,
+									borderRadius: 10,
+								}}
+								onPress={props.onAddItem}
+							>
+								<Text style={{ color: "#e60544" }}>+ ADD</Text>
+							</TouchableHighlight>
+						</View>
+					) : (
+						<View
+							style={{
+								flex: 1,
+								flexDirection: "row",
+								marginVertical: 10,
+							}}
+						>
+							<View>
+								<Button
+									style={{
+										borderRadius: 0,
+									}}
+									title=" -"
+									color="#e60544"
+									onPress={props.onDelItem}
+								/>
+							</View>
+							<View
+								style={{
+									justifyContent: "center",
+									padding: 10,
+								}}
+							>
+								<Text
+									style={{
+										color: "#e60544",
+										fontWeight: "600",
+										borderRadius: 0,
+									}}
+								>
+									{props.count}
+								</Text>
+							</View>
+							<View style={{ height: "100%" }}>
+								<Button
+									style={{
+										borderRadius: 0,
+									}}
+									title="+"
+									color="#e60544"
+									onPress={props.onAddItem}
+								/>
+							</View>
+						</View>
+					)}
 				</View>
 			</View>
 			<Divider />

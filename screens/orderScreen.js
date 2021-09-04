@@ -1,10 +1,13 @@
 import React, { useState } from "react";
-import { Dimensions, ScrollView, StyleSheet, View } from "react-native";
+import { Dimensions, ScrollView, StyleSheet, View, Text } from "react-native";
 import { Chip, Searchbar } from "react-native-paper";
 import FoodCard from "../components/foodCard";
+import SelectionModal from "../components/selectionModal";
 export default function OrderScreen(props) {
 	const [sortDirection, setSortDirection] = useState("");
 	const [sortMessage, setSortMessage] = useState("Sort by Price");
+	const [showModal, setShowModal] = useState(false);
+
 	return (
 		<View style={{ flex: 1 }}>
 			<Searchbar
@@ -23,16 +26,41 @@ export default function OrderScreen(props) {
 						justifyContent: "space-between",
 					}}
 				>
-					<Chip icon="pizza" mode="outlined">
+					<Chip
+						icon="pizza"
+						mode="outlined"
+						onPress={props.onFilterType}
+						style={{
+							borderColor: props.isVegSelected ? "#e60544" : "#999",
+							borderWidth: 1,
+						}}
+					>
 						Veg Only
 					</Chip>
-					<Chip icon="star" mode="outlined">
+					<Chip
+						icon="star"
+						mode="outlined"
+						onPress={props.onHighRateSelected}
+						style={{
+							borderColor: props.isHighRated ? "#e60544" : "#999",
+							borderWidth: 1,
+						}}
+					>
 						Rating 4.0 +
 					</Chip>
-					<Chip icon="beer" mode="outlined">
-						{!props.selectedDishType
-							? "Select Cuisine"
-							: props.selectedDishType}
+					<Chip
+						icon="beer"
+						mode="outlined"
+						style={{
+							borderColor:
+								!props.noOfSelectedCuisines == 0 ? "#e60544" : "#999",
+							borderWidth: 1,
+						}}
+						onPress={() => setShowModal(true)}
+					>
+						{props.noOfSelectedCuisines == 0
+							? "Cuisine"
+							: `Cusines (${props.noOfSelectedCuisines})`}
 					</Chip>
 					<Chip
 						icon={
@@ -60,10 +88,22 @@ export default function OrderScreen(props) {
 							dishType={dish.dishType}
 							price={dish.price}
 							rating={dish.rating}
+							count={dish.count}
+							onAddItem={() => props.handleItemCount(dish.key, "add")}
+							onDelItem={() => props.handleItemCount(dish.key, "del")}
 						/>
 					))}
 				</ScrollView>
 			</View>
+			{showModal ? (
+				<SelectionModal
+					cuisines={props.cuisines}
+					noOfSelectedCuisines={props.noOfSelectedCuisines}
+					onCheckboxSelected={props.onCheckboxSelected}
+					onApplyCuisine={() => setShowModal(false)}
+					onClearCuisines={props.onClearCuisines}
+				/>
+			) : null}
 		</View>
 	);
 }
