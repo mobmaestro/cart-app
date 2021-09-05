@@ -1,13 +1,6 @@
 import * as React from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
-import {
-	Modal,
-	Text,
-	Button,
-	Headline,
-	Divider,
-	Checkbox,
-} from "react-native-paper";
+import { Modal, Button, Headline, Checkbox } from "react-native-paper";
 
 export default function SelectionModal(props) {
 	return (

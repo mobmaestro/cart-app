@@ -3,6 +3,8 @@ import { StyleSheet, Text, View, Button } from "react-native";
 import AppHeader from "./components/appHeader";
 import OrderScreen from "./screens/orderScreen";
 import { foodList } from "./resources/foodList";
+import CheckoutScreen from "./screens/checkoutScreen";
+import EndScreen from "./screens/endScreen";
 
 const cuisineList = [
 	{ title: "Pizza", isSelected: false },
@@ -19,6 +21,7 @@ const cuisineList = [
 let selectedCuisines = [];
 
 export default function App() {
+	const [screenType, setScreenType] = useState("orderScreen");
 	const [searchQuery, setSearchQuery] = useState("");
 	const [dishes, setDishes] = useState(foodList);
 	const [isVegSelected, setIsVegSelected] = useState(false);
@@ -26,7 +29,7 @@ export default function App() {
 	const [noOfSelectedCuisines, setNoOfSelectedCuisines] = useState("");
 	const [isItemSelected, setIsItemSelected] = useState(false);
 	const [cuisines, setCuisines] = useState(cuisineList);
-
+	const [selectedDishes, setSelectedDishes] = useState([]);
 	const handleSearch = (value) => {
 		setSearchQuery(value);
 	};
@@ -38,34 +41,6 @@ export default function App() {
 	const handleHighRateSelected = () => {
 		setIsHighRated(!isHighRated);
 	};
-
-	useEffect(() => {
-		if (searchQuery == "" && !isVegSelected && !isHighRated) {
-			setDishes(foodList);
-		} else {
-			let filteredFoodList = [...dishes];
-			let copiedList = [...filteredFoodList];
-			if (searchQuery != "") {
-				copiedList = [...filteredFoodList];
-				filteredFoodList = filterDishesOnSearch(filteredFoodList);
-			} else {
-				filteredFoodList = [...copiedList];
-			}
-			if (isVegSelected) {
-				copiedList = [...filteredFoodList];
-				filteredFoodList = filterDishesByVeg(filteredFoodList);
-			} else {
-				filteredFoodList = [...copiedList];
-			}
-			if (isHighRated) {
-				copiedList = [...filteredFoodList];
-				filteredFoodList = filterDishesByRating(filteredFoodList);
-			} else {
-				filteredFoodList = [...copiedList];
-			}
-			setDishes(filteredFoodList);
-		}
-	}, [searchQuery, isVegSelected, isHighRated]);
 
 	useEffect(() => {
 		for (let dish of dishes) {
@@ -160,25 +135,64 @@ export default function App() {
 		setNoOfSelectedCuisines(0);
 	};
 
+	//Handler for checkout with selected dishes
+	const handleCheckout = () => {
+		setSelectedDishes(dishes.filter((dish) => dish.count > 0));
+		setScreenType("checkoutScreen");
+	};
+
+	//Handler on Order Placed
+	const handlePlaceOrder = () => {
+		setScreenType("endScreen");
+	};
+
+	//Handler for reset app
+	const handleReset = () => {
+		setScreenType("orderScreen");
+		setCuisines([]);
+		setDishes(foodList);
+		setSearchQuery("");
+		setIsHighRated(false);
+		setIsItemSelected(false);
+		setIsVegSelected(false);
+		setNoOfSelectedCuisines(0);
+		setSelectedDishes([]);
+	};
+
 	return (
 		<View style={styles.container}>
 			<AppHeader />
-			<OrderScreen
-				searchQuery={searchQuery}
-				onSearch={handleSearch}
-				onFilterType={handleFilterType}
-				onHighRateSelected={handleHighRateSelected}
-				onCheckboxSelected={handleCheckboxSelected}
-				onClearCuisines={handleClearCuisines}
-				handleItemCount={handleItemCount}
-				isVegSelected={isVegSelected}
-				isHighRated={isHighRated}
-				dishes={dishes}
-				cuisines={cuisines}
-				noOfSelectedCuisines={noOfSelectedCuisines}
-			/>
-			{isItemSelected ? (
-				<Button title="Proceed To Checkout" color="#e60544" />
+			{screenType === "orderScreen" ? (
+				<OrderScreen
+					searchQuery={searchQuery}
+					onSearch={handleSearch}
+					onFilterType={handleFilterType}
+					onHighRateSelected={handleHighRateSelected}
+					onCheckboxSelected={handleCheckboxSelected}
+					onClearCuisines={handleClearCuisines}
+					handleItemCount={handleItemCount}
+					isVegSelected={isVegSelected}
+					isHighRated={isHighRated}
+					dishes={dishes}
+					cuisines={cuisines}
+					noOfSelectedCuisines={noOfSelectedCuisines}
+				/>
+			) : screenType === "checkoutScreen" ? (
+				<CheckoutScreen
+					selectedDishes={selectedDishes}
+					onPressBack={() => setScreenType("orderScreen")}
+					onPlaceOrder={handlePlaceOrder}
+				/>
+			) : (
+				<EndScreen onReturn={handleReset} />
+			)}
+
+			{isItemSelected && screenType === "orderScreen" ? (
+				<Button
+					title="Proceed To Checkout"
+					color="#e60544"
+					onPress={handleCheckout}
+				/>
 			) : null}
 		</View>
 	);

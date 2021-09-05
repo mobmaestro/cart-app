@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Dimensions, ScrollView, StyleSheet, View, Text } from "react-native";
+import { Dimensions, ScrollView, StyleSheet, View } from "react-native";
 import { Chip, Searchbar } from "react-native-paper";
 import FoodCard from "../components/foodCard";
 import SelectionModal from "../components/selectionModal";

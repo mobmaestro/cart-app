@@ -36,7 +36,7 @@ export default function FoodCard(props) {
 						ratingCount={5}
 					/>
 					<Paragraph style={{ fontWeight: "bold" }}>
-						Rs. {props.price}
+						&#8377; {props.price}
 					</Paragraph>
 				</View>
 				<View style={styles.imageContainer}>
